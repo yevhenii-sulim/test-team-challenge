@@ -2,6 +2,7 @@ import { theme } from "../../utils/theme";
 
 export const styleSelect = {
   position: "relative",
+  display: "flex",
   width: "100%",
   maxWidth: "300px",
   bgcolor: `${theme.colors.bgToDo}`,
