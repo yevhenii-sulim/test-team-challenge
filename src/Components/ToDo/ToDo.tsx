@@ -89,7 +89,7 @@ export default function ToDo({
       <Buttons>
         {!change && (
           <Button sx={deleteButton} onClick={() => deleteTodo(id)}>
-            Delete {id}
+            Delete
           </Button>
         )}
 

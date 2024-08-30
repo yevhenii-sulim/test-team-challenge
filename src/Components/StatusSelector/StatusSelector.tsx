@@ -16,9 +16,14 @@ export default function StatusSelector({ status, setStatus }: TypePropSelect) {
 
   return (
     <Box sx={{ marginBottom: "16px" }}>
-      <label htmlFor='status'>Додати статус</label>
+      <label htmlFor='status-label'>Додати статус</label>
       <FormControl sx={styleSelect}>
-        <Select id='status' value={status} onChange={handleChange}>
+        <Select
+          labelId='status-label'
+          id='status'
+          value={status}
+          onChange={handleChange}
+        >
           <MenuItem value={"До виконання"}>До виконання</MenuItem>
           <MenuItem value={"В роботі"}>В роботі</MenuItem>
           <MenuItem value={"Виконано"}>Виконано</MenuItem>
