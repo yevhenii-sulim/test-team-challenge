@@ -13,14 +13,12 @@ interface TodoListType {
   deleteTodo: (id: string) => void;
 }
 
-export default function ToDoList(prop: TodoListType) {
+export default function ToDoList({ data, deleteTodo }: TodoListType) {
   const { refetch }: TypeFetchData = useGetTask();
 
   const [valueName, setValueName] = useState<string>("");
   const [status, setStatus] = useState<string>("");
   const [valueTask, setValueTask] = useState<string>("");
-
-  const { data, deleteTodo } = prop;
 
   async function createTodo(task: TodoType) {
     return axios.post(
