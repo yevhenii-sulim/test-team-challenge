@@ -6,17 +6,17 @@ export const Wrapper = styled.div`
   border: 2px solid ${({ theme }) => theme.colors.borderToDo};
   border-radius: 8px;
   padding: 10px;
-`;
-export const Header = styled.header`
-  text-align: center;
   h2 {
     font-family: Jost;
     font-size: 22px;
     font-weight: 600;
+    margin: 0;
   }
 `;
+export const Header = styled.header`
+  text-align: center;
+`;
 export const deleteButton = {
-  width: "264px",
   fontSize: "22px",
   fontWeight: "700",
   fontFamily: "Jost",
@@ -24,13 +24,28 @@ export const deleteButton = {
   bgcolor: theme.colors.bgButton,
   borderRadius: "6px",
   textAlign: "center",
-  padding: "8px 0px",
+  padding: "8px 12px",
   lineHeight: 1.4,
   textTransform: "none",
   translate: "all 100ms ease",
-  margin: "auto",
   display: "block",
   "&:hover": {
     color: theme.colors.colorHoverButton,
   },
+};
+export const ButtonChange = styled.button`
+  background-color: transparent;
+  display: block;
+  border: none;
+  cursor: pointer;
+  &:hover svg {
+    color: ${({ theme }) => theme.colors.bgCommon};
+  }
+`;
+export const Buttons = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+export const styleButtonSvgChange = {
+  color: theme.colors.bgButton,
 };

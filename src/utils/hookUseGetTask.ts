@@ -10,10 +10,10 @@ const getData = () => {
     .then((result) => result.data);
 };
 export function useGetTask() {
-  const { isPending, data, isSuccess } = useQuery({
+  const { isPending, data, isSuccess, refetch } = useQuery({
     queryKey: ["tasks"],
     queryFn: getData,
   });
 
-  return { isPending, data, isSuccess };
+  return { isPending, data, isSuccess, refetch };
 }

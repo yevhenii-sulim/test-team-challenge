@@ -12,3 +12,13 @@ export interface TodoTypeProp {
   task: string;
   deleteTodo: (id: string) => void;
 }
+export interface TypeFetchData {
+  data: TodoType[] | undefined;
+  isPending: boolean;
+  isSuccess: boolean;
+  refetch: () => void;
+}
+export interface TypeFnChangeTodo {
+  id: string;
+  data: TodoType;
+}

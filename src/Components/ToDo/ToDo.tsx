@@ -1,8 +1,24 @@
+import { SyntheticEvent, useState } from "react";
 import axios from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Button } from "@mui/material";
-import { TodoTypeProp } from "../../utils/interface";
-import { Header, Wrapper, deleteButton } from "./ToDo.styled";
+import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
+import {
+  TodoType,
+  TodoTypeProp,
+  TypeFetchData,
+  TypeFnChangeTodo,
+} from "../../utils/interface";
+import ChangeComponent from "../ChangeComponent/ChangeComponent";
+import { useGetTask } from "../../utils/hookUseGetTask";
+import {
+  ButtonChange,
+  Header,
+  Wrapper,
+  deleteButton,
+  Buttons,
+  styleButtonSvgChange,
+} from "./ToDo.styled";
 
 export default function ToDo({
   name,
@@ -11,31 +27,76 @@ export default function ToDo({
   deleteTodo,
   id = "",
 }: TodoTypeProp) {
-  // const queryClient = useQueryClient();
+  const [change, setChange] = useState<boolean>(false);
+  const { refetch }: TypeFetchData = useGetTask();
 
-  // async function changeTodo(id: string) {
-  //   return axios.put(
-  //     `https://66cedc40901aab24841fe508.mockapi.io/api/todo/task/${id}`
-  //   );
-  // }
+  function onChangeTodo(): void {
+    setChange(true);
+  }
+  function onCloseChange() {
+    setChange(false);
+  }
 
-  // const changeTodoMutation = useMutation({
-  //   mutationFn: changeTodo,
-  //   onSuccess: (data) => {
-  //     queryClient.setQueryData(["changeTask"], data);
-  //   },
-  // });
+  async function changeTodo({ id, data }: TypeFnChangeTodo): Promise<TodoType> {
+    const putFetching = axios.put(
+      `https://66cedc40901aab24841fe508.mockapi.io/api/todo/task/${id}`,
+      data
+    );
+    const result = await putFetching;
+    return result.data;
+  }
+
+  const changeTodoMutation = useMutation({
+    mutationFn: changeTodo,
+    async onSuccess() {
+      await refetch();
+    },
+  });
+
+  function onSubmit(evt: SyntheticEvent, status: string, valueTask: string) {
+    evt.preventDefault();
+
+    setChange(false);
+    changeTodoMutation.mutate({
+      id,
+      data: {
+        name,
+        status,
+        task: valueTask,
+      },
+    });
+  }
 
   return (
     <Wrapper>
-      <Header>
-        <h2>{name}</h2>
-        <p>{status}</p>
-      </Header>
-      <p>{task}</p>
-      <Button type='submit' sx={deleteButton} onClick={() => deleteTodo(id)}>
-        Delete
-      </Button>
+      <h2>{name}</h2>
+      {change ? (
+        <ChangeComponent
+          onCloseChange={onCloseChange}
+          onSubmit={onSubmit}
+          valueStatus={status}
+          task={task}
+        />
+      ) : (
+        <>
+          <Header>
+            <p>{status}</p>
+          </Header>
+          <p>{task}</p>
+        </>
+      )}
+
+      <Buttons>
+        {!change && (
+          <Button sx={deleteButton} onClick={() => deleteTodo(id)}>
+            Delete {id}
+          </Button>
+        )}
+
+        <ButtonChange type='button' onClick={onChangeTodo}>
+          <DriveFileRenameOutlineIcon sx={styleButtonSvgChange} />
+        </ButtonChange>
+      </Buttons>
     </Wrapper>
   );
 }
