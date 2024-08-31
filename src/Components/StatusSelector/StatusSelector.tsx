@@ -3,6 +3,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { styleSelect } from "./StatusSelector.styled";
+import { InputLabel } from "@mui/material";
 
 interface TypePropSelect {
   status: string;
@@ -16,7 +17,19 @@ export default function StatusSelector({ status, setStatus }: TypePropSelect) {
 
   return (
     <Box sx={{ marginBottom: "16px" }}>
-      <label htmlFor='status-label'>Додати статус</label>
+      <InputLabel
+        id='status-label'
+        sx={{
+          color: "#000000",
+          fontFamily: "Nunito Sans",
+          fontSize: "18px",
+          fontStyle: "normal",
+          fontWeight: "400",
+          lineHeight: "1.5",
+        }}
+      >
+        Додати статус
+      </InputLabel>
       <FormControl sx={styleSelect}>
         <Select
           labelId='status-label'

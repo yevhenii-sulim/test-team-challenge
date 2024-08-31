@@ -39,6 +39,28 @@ export default function ToDoList({ data, deleteTodo }: TodoListType) {
 
   function onSubmit(evt: SyntheticEvent) {
     evt.preventDefault();
+    console.dir(evt.target);
+
+    const form = evt.target as HTMLFormElement;
+
+    if (
+      form.elements.namedItem("name") &&
+      (form.elements.namedItem("name") as HTMLInputElement).value === ""
+    ) {
+      (form.elements.namedItem("name") as HTMLInputElement).style.boxShadow =
+        "inset 0 0 0 3px red";
+      return;
+    }
+
+    if (
+      form.elements.namedItem("task") &&
+      (form.elements.namedItem("task") as HTMLTextAreaElement).value === ""
+    ) {
+      (form.elements.namedItem("task") as HTMLTextAreaElement).style.boxShadow =
+        "inset 0 0 0 3px red";
+      return;
+    }
+
     createTodoMutation.mutate({
       name: valueName,
       status: status,
@@ -47,9 +69,11 @@ export default function ToDoList({ data, deleteTodo }: TodoListType) {
   }
 
   function handleChangeName(evt: ChangeEvent<HTMLInputElement>): void {
+    evt.target.style.boxShadow = "none";
     setValueName(evt.target.value);
   }
   function handleChangeTask(evt: ChangeEvent<HTMLTextAreaElement>): void {
+    evt.target.style.boxShadow = "none";
     setValueTask(evt.target.value);
   }
   return (
@@ -57,6 +81,7 @@ export default function ToDoList({ data, deleteTodo }: TodoListType) {
       <Form onSubmit={onSubmit}>
         <label htmlFor='name'>Додати ім'я</label>
         <input
+          name='name'
           type='text'
           id='name'
           value={valueName}
@@ -65,6 +90,7 @@ export default function ToDoList({ data, deleteTodo }: TodoListType) {
         <StatusSelector status={status} setStatus={setStatus} />
         <label htmlFor='task'>Додати завдання</label>
         <textarea
+          name='task'
           value={valueTask}
           id='task'
           onChange={handleChangeTask}
